@@ -1,0 +1,17 @@
+GET http://localhost:3000/2/book/3a/ll
+Content-Type: application/json
+aa:"dsds"
+
+{
+    "content":"Salomm",
+    "xayr":"asa",
+    "son":1
+}
+
+
+# {
+#   "user-agent": "vscode-restclient",
+#   "accept-encoding": "gzip, deflate",
+#   "host": "localhost:3000",
+#   "connection": "close"
+# }
