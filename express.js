@@ -100,21 +100,21 @@ class express {
     }
     post(path, handler) {
         this.yullar.push({
-            method: "GET",
+            method: "POST",
             path,
             handler
         })
     }
     put(path, handler) {
         this.yullar.push({
-            method: "GET",
+            method: "PUT",
             path,
             handler
         })
     }
     delete(path, handler) {
         this.yullar.push({
-            method: "GET",
+            method: "DELETE",
             path,
             handler
         })

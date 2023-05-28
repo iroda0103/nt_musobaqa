@@ -10,6 +10,7 @@ express1.get('/:id/book/:count/ll', (req, res) => {
     // res.sendFile( 'kk/index.txt'))
     // res.json([{ sas: "s" }])
     // res.sendFile('kk/index.txt')
+    console.log(req.body,req.params,req.query);
     res.json([{ sas: "s" }])
     // res.send('<h1>dsdsd</h1>')
 })
