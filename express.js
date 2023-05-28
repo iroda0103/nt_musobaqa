@@ -1,7 +1,6 @@
 const http = require('http')
 const path = require('path')
 const fs = require('fs')
-//req.params
 function queryTugirlash(url) {
     let query = {}
     let indexQuery = url.lastIndexOf('?')
@@ -27,26 +26,12 @@ class express {
             req.params = {}
             req.header = (elem) => req.headers[elem]
 
-            res.sendFile = (path2) => {
-                // var filePath = path.join(__dirname, 'myfile.mp3');
-                // var stat = fileSystem.statSync(path);
-
-                // response.writeHead(200, {
-                //     'Content-Type': 'audio/mpeg',
-                //     'Content-Length': stat.size
-                // });
-
-                // var readStream = fileSystem.createReadStream(filePath);
-                let b = ''
-                //    let a= fs.readFile('kk/index.txt','utf-8',(err,files)=>{
-                //     console.log(files);
-                //     b
-                //    })
-                console.log(a);
-                // readStream.pipe(res);
+            res.send = (data) => {
+                res.setHeader('Content-Type', 'text/plain')
+                res.end(data)
             }
             res.json = (data) => {
-                res.setHeader('Content-Type','application/json')
+                res.setHeader('Content-Type', 'application/json')
                 res.end(JSON.stringify(data))
             }
             res.status = (code) => {
@@ -54,24 +39,30 @@ class express {
                 res.statusCode = code
                 return res
             }
-
-            res.send = (data) => {
-                if(typeof(data)=='object'){
-                  return  res.json(data)
-                }
-                
-                res.end(data)
+            res.statusCode = (code) => {
+                // res.status = code
+                res.statusCode = code
+                return res
+            }
+            res.sendFile = (path) => {
+                fs.readFile(path, (err, data) => {
+                    if (err) {
+                        res.statusCode = 500;
+                        res.end('Server xatosi');
+                        return;
+                    }
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'text/html');
+                    res.end(data);
+                });
             }
             await req.on('data', (chunk) => {
                 req.body = JSON.parse(chunk.toString())
             });
-            req.on('end', () => {
-                console.log('tugadi');
-            })
-
+           
+            console.log(req.url, req.method);
             req.query = queryTugirlash(req.url)
 
-            console.log(req.query);
             for (const handler of this.uses) {
                 handler(req, res)
             }
@@ -89,11 +80,10 @@ class express {
                 });
                 console.log(req.params);
 
-                if (method == req.method && req.method == method) {
+                if (method == req.method && req.url == path) {
                     return handler(req, res)
                 }
             }
-
             res.statusCode(404)
             res.end('Not Found')
         })
@@ -133,23 +123,5 @@ class express {
         this.server.listen(PORT, handler)
     }
 }
-
-const express1 = new express()
-express1.use((req, res) => {
-    console.log('use ishladi');
-})
-express1.get('/:id/book/:count/ll', (req, res) => {
-    const { content, xayr, son } = req.body
-    console.log(req.headers['aa'], 'header', req.header('aa'), 'sss')
-    // res.status(303).json([{ sas: "s" }])
-    // console.log(res.status.json);
-    // res.sendFile(path.join(__dirname, 'index.txt'))
-    // res.json([{ sas: "s" }])
-    
-    res.json([{ sas: "s" }])
-})
-
-express1.listen(3000, () => {
-    console.log('server boshlandi');
-})
 // export const express=express
+module.exports = express;
